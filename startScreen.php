@@ -5,14 +5,24 @@ body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
-  background-color: #292929;
 }
 
 .container {
   position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 0; 
+  left: 0; 
+  width: 100%; 
+  height: 100%; 
+  background: linear-gradient(to top right, #161616, #525252); /* Gray gradient from lower left to upper right */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo {
+  margin-bottom: 100px; 
+  width: 1000px; 
 }
 
 .order-button {
@@ -35,9 +45,10 @@ body {
 <body>
 
     <div class="container">
+        <img src="Store Logo.png" alt="Logo" class="logo">
+        <br> 
         <a href="comboMeals.php" class="order-button">Click here to Order</a>
     </div>
 
 </body>
 </html>
-

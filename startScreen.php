@@ -13,8 +13,7 @@ body {
   left: 0; 
   width: 100%; 
   height: 100%; 
-  background: linear-gradient(to top right, #161616, #525252); /* Gray gradient from lower left to upper right */
-  display: flex;
+  background: linear-gradient(to top right, #161616, #525252); 
   flex-direction: column;
   justify-content: center;
   align-items: center;

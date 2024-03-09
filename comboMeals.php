@@ -4,8 +4,8 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: Arial, sans-serif;
-  background-color: #292929;
+  font-family: Times New Roman, sans-serif;
+  background-color: #2E2E2E;
 }
 
 .container {
@@ -16,19 +16,54 @@ body {
   height: 100vh;
 }
 
+.logo {
+  position: absolute; 
+}
+
+.logo-left {
+  top: 0px; 
+  left: 0px; 
+  width: 500px; 
+  height: auto; 
+}
+
+.logo-right {
+  top: 0px; 
+  right: 0px;
+  width: 300px; 
+  height: auto; 
+}
+
 .combo-container {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: column; 
+  align-items: center; 
   margin-bottom: 20px;
 }
 
+.top-items {
+  margin-top: 200px;
+  display: flex;
+  justify-content: center;
+}
+
 .combo-item {
-  width: 200px;
-  height: 200px;
+  width: 500px;
+  height: 250px;
   background-color: #525252;
-  margin: 10px;
   border-radius: 25px;
+  margin: 10px;
+}
+
+.combo-item img {
+  width: 100%;
+  height: 100%;
+  border-radius: 25px;
+}
+
+.bottom-items {
+  display: flex;
+  justify-content: center;
 }
 
 .menu-button {
@@ -43,22 +78,35 @@ body {
 }
 
 .menu-button:hover {
-  background-color: darkred;
+  background-color: #491515;
 }
 
 </style>
 </head>
 <html>
 <body>
-<h1 style="color:white">Combo Meals</h1>
 <div class="container">
+    <img src="Combo Meals Logo.png" alt="Left Logo" class="logo logo-left">
+    <img src="15 off Logo.png" alt="Right Logo" class="logo logo-right">
     <div class="combo-container">
-      <div class="combo-item"></div>
-      <div class="combo-item"></div>
-      <div class="combo-item"></div>
-      <div class="combo-item"></div>
+      <div class="top-items">
+        <a href="Combo1_Checkout.php" class="combo-item">
+          <img src="Combo1.png" alt="Combo 1 Image">
+        </a>
+        <a href="Combo2_Checkout.php" class="combo-item">
+          <img src="Combo2.png" alt="Combo 2 Image">
+        </a>
+      </div>
+      <div class="bottom-items">
+        <a href="Combo3_Checkout.php" class="combo-item">
+          <img src="Combo3.png" alt="Combo 3 Image">
+        </a>
+        <a href="Combo4_Checkout.php" class="combo-item">
+          <img src="Combo4.png" alt="Combo 4 Image">
+        </a>
+      </div>
     </div>
-    <a href="mainMenu.php" class="menu-button">Menu</a>
+    <a href="mainMenu.php" class="menu-button">View Menu</a>
   </div>
 </body>
 </html>

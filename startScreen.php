@@ -4,17 +4,16 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: Arial, sans-serif;
-  /*background: linear-gradient(to top right, #4d4d4d, #525252); */
+  font-family: Times New Roman, sans-serif;
 }
 
 .container {
   position: fixed;
-  top: 0; /* Set to top of the viewport */
-  left: 0; /* Set to left of the viewport */
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  background: linear-gradient(to top right, #161616, #525252); /* Gray gradient from lower left to upper right */
+  top: 0; 
+  left: 0; 
+  width: 100%; 
+  height: 100%;
+  background: linear-gradient(to top right, #161616, #525252); 
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -22,7 +21,7 @@ body {
 }
 
 .logo {
-  margin-bottom: 100px; 
+  margin-bottom: 30px; 
   width: 1000px; 
 }
 
@@ -38,7 +37,8 @@ body {
 }
 
 .order-button:hover {
-  background-color: darkred;
+  background-color: #491515;
+;
 }
 </style>
 </head>

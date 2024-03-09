@@ -4,8 +4,8 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: Arial, sans-serif;
-  background-color: #292929;
+  font-family: Times New Roman, sans-serif;
+  background-color: #2E2E2E;
 }
 
 .container {
@@ -14,27 +14,31 @@ body {
 }
 
 .sidebar {
-  background-color: red;
+  background-color: #872529;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center; 
+  border-radius: 10px;
+  width: 120px;
+  height: 95%;
+  margin: 20px;
 }
 
 .sidebar a {
-  width: 100px; 
-  height: 100px; 
+  width: 100%;
+  height: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 10px;
+  margin: 20px;
   color: white;
   text-decoration: none;
   border-radius: 10px; 
 }
 
 .sidebar a.active {
-  background-color: darkred;
+  background-color: #491515;
 }
 
 </style>
@@ -42,13 +46,12 @@ body {
 <html>
 <body>
 <div class="container">
-<div class="container">
-    <div class="sidebar">
-      <a href="#" class="active">Main</a>
-      <a href="sideDish.php">Side</a>
-      <a href="drinks.php">Drinks</a>
-    </div>
+  <div class="sidebar">
+    <a href="#" class="active">Main</a>
+    <a href="sideDish.php">Side</a>
+    <a href="drinks.php">Drinks</a>
+   
   </div>
+</div>
 </body>
 </html>
-

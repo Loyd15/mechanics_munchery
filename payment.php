@@ -1,60 +1,3 @@
-<?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$database = "mydb";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $database);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Initialize variables to store selected item IDs
-$mainID = $_GET['mainID'] ?? null;
-$sideID = $_GET['sideID'] ?? null;
-$drinkID = $_GET['drinkID'] ?? null;
-
-// Fetch selected items from the database
-$mainPrice = 0;
-$sidePrice = 0;
-$drinkPrice = 0;
-
-if ($mainID) {
-    $sql = "SELECT * FROM main WHERE itemID = $mainID";
-    $result = $conn->query($sql);
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        $mainPrice = $row['itemPrice'];
-    }
-}
-
-if ($sideID) {
-    $sql = "SELECT * FROM sides WHERE itemID = $sideID";
-    $result = $conn->query($sql);
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        $sidePrice = $row['itemPrice'];
-    }
-}
-
-if ($drinkID) {
-    $sql = "SELECT * FROM drinks WHERE itemID = $drinkID";
-    $result = $conn->query($sql);
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        $drinkPrice = $row['itemPrice'];
-    }
-}
-
-// Calculate total amount
-$totalAmount = $mainPrice + $sidePrice + $drinkPrice;
-
-$conn->close();
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -147,9 +90,9 @@ $conn->close();
             color: #999;
         }
 
-        .cancel-button {
+        .done-button {
             padding: 10px 20px;
-            background-color: #D51B23;
+            background-color: #4CAF50;
             color: white;
             text-decoration: none;
             font-size: 16px;
@@ -158,8 +101,8 @@ $conn->close();
             transition: background-color 0.3s;
         }
 
-        .cancel-button:hover {
-            background-color: #872529;
+        .done-button:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
@@ -168,32 +111,105 @@ $conn->close();
     <div class="container">
         <h1 class="title">Payment:</h1>
 
-        <div class="total-section">
-            <div class="total-text">Order Total</div>
-            <div class="total-amount">₱ <?php echo number_format($totalAmount, 2); ?></div>
-        </div>
-        <div class="underline"></div>
+        <?php
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $database = "mydb";
 
-        <div class="input-section">
-            <div class="input-row">
-                <label class="input-label" for="name">Full Name:</label>
-                <input type="text" id="name" class="input-field" placeholder="Enter your full name">
-            </div>
-            <div class="input-row">
-                <label class="input-label" for="date">Date:</label>
-                <input type="text" id="date" class="input-field" placeholder="Enter the date">
-            </div>
-            <div class="input-row">
-                <label class="input-label" for="payment-amount">Payment amount:</label>
-                <input type="text" id="payment-amount" class="input-field" placeholder="₱ Enter payment amount">
-            </div>
-            <div class="input-row">
-                <span class="input-label">Change:</span>
-                <span class="input-field">₱ 0.00</span>
-            </div>
-        </div>
+        // Create connection
+        $conn = new mysqli($servername, $username, $password, $database);
 
-        <a href="Receipt.php" class="cancel-button">Done</a>
+        // Check connection
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        // Initialize variables to store selected item IDs
+        $mainID = $_GET['mainID'] ?? null;
+        $sideID = $_GET['sideID'] ?? null;
+        $drinkID = $_GET['drinkID'] ?? null;
+
+        // Fetch selected items from the database
+        $mainPrice = 0;
+        $sidePrice = 0;
+        $drinkPrice = 0;
+
+        if ($mainID) {
+            $sql = "SELECT * FROM main WHERE itemID = $mainID";
+            $result = $conn->query($sql);
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                $mainPrice = $row['itemPrice'];
+            }
+        }
+
+        if ($sideID) {
+            $sql = "SELECT * FROM sides WHERE itemID = $sideID";
+            $result = $conn->query($sql);
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                $sidePrice = $row['itemPrice'];
+            }
+        }
+
+        if ($drinkID) {
+            $sql = "SELECT * FROM drinks WHERE itemID = $drinkID";
+            $result = $conn->query($sql);
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                $drinkPrice = $row['itemPrice'];
+            }
+        }
+
+        // Calculate total amount
+        $totalAmount = $mainPrice + $sidePrice + $drinkPrice;
+
+        // Insert data into mCombo table
+        $insertSql = "INSERT INTO mCombo (mainID, drinkID, sideID, totalPrice) VALUES ($mainID, $drinkID, $sideID, $totalAmount)";
+        if ($conn->query($insertSql) === TRUE) {
+            echo "<div class='total-section'>
+                    <div class='total-text'>Order Total</div>
+                    <div class='total-amount'>₱ " . number_format($totalAmount, 2) . "</div>
+                  </div>
+                  <div class='underline'></div>
+                  <div class='input-section'>
+                    <form action='Receipt.php' method='POST'>
+                        <div class='input-row'>
+                            <label class='input-label' for='name'>Full Name:</label>
+                            <input type='text' id='name' class='input-field' placeholder='Enter your full name' name='fullName' required>
+                        </div>
+                        <div class='input-row'>
+                            <label class='input-label' for='date'>Date:</label>
+                            <input type='date' id='date' class='input-field' name='transactionDate' required>
+                        </div>
+                        <div class='input-row'>
+                            <input type='hidden' name='totalAmount' value='$totalAmount'>
+                        </div>
+                        <button type='submit' class='done-button'>Done</button>
+                    </form>
+                  </div>";
+        } else {
+            echo "Error: " . $insertSql . "<br>" . $conn->error;
+        }
+
+        // Insert data into transactions table
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $fullName = $_POST['fullName'];
+            $transactionDate = $_POST['transactionDate'];
+            $totalAmount = $_POST['totalAmount'];
+
+            $insertTransactionSql = "INSERT INTO transactions (itemType, itemID, transactionDate) VALUES ('M', LAST_INSERT_ID(), '$transactionDate')";
+            if ($conn->query($insertTransactionSql) === TRUE) {
+                echo "<p>Transaction recorded successfully.</p>";
+            } else {
+                echo "Error: " . $insertTransactionSql . "<br>" . $conn->error;
+            }
+        }
+
+        $conn->close();
+        ?>
+
     </div>
 
 </body>

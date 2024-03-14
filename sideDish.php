@@ -13,6 +13,9 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Retrieve main dish ID from URL parameter if set
+$mainID = $_GET['mainID'] ?? null;
+
 // Fetch side dishes from the database
 $sql = "SELECT * FROM sides";
 $result = $conn->query($sql);
@@ -117,7 +120,8 @@ $conn->close();
         <div class="main-dish-selection">
             <?php foreach ($sides as $side) : ?>
                 <div class="main-dish-item">
-                    <form action="drinks.php" method="post">
+                    <form action="drinks.php" method="get">
+                        <input type="hidden" name="mainID" value="<?php echo $mainID; ?>">
                         <input type="hidden" name="sideID" value="<?php echo $side['itemID']; ?>">
                         <button type="submit" name="select_side"><?php echo $side['itemName'] . ' - ₱' . number_format($side['itemPrice'], 2); ?></button>
                     </form>

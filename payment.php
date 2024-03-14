@@ -6,7 +6,7 @@
     <title>Payment Page</title>
     <style>
         body {
-            background-color: #313131;
+            background-color: #2E2E2E;
             margin: 0;
             font-family: Times New Roman, sans-serif;
         }
@@ -26,28 +26,43 @@
         }
 
         .total-section {
-            text-align: center;
+            text-align: left;
             padding: 20px;
+            color: white;
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
             align-items: center;
+            width: 60%; /* Adjusted width */
         }
 
-        .total-text,
-        .total-amount {
-            color: white;
+        .total-text{
+            margin-top: 70px;
             font-size: 18px;
             margin-bottom: 10px;
+            margin-left: 500px; /* Adjusted margin */
+            justify-content: space-between;
+            align-items: left;
+        }
+        
+        .total-amount {
+            margin-top: 70px;
+            font-size: 18px;
+            margin-bottom: 10px;
+            margin-left: 235px;
+            margin-right: auto; /* Center the element */
         }
 
         .underline {
             border-bottom: 1px solid white;
-            width: 50%;
+            width: 33%;
             margin-top: 5px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 50px;
         }
 
         .input-section {
-            text-align: center; /* Centering the input section */
+            text-align: center;
             padding: 20px;
             display: flex;
             flex-direction: column;
@@ -56,44 +71,49 @@
 
         .input-row {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            width: 50%; /* Adjust width as needed */
-            margin: 0 auto; /* Centering the input row */
+            width: 100%;
+            margin-bottom: 10px;
         }
 
-        .input-label,
+
+        .input-label{
+            color: white;
+            font-size: 18px;
+            text-align: center;
+            margin-left: 500px;
+        }
+
         .input-field {
             color: white;
             font-size: 18px;
-            margin-bottom: 10px;
             text-align: center;
+            border: none; /* Remove the border */
+            background-color: #3E3E3E; /* Set background color */
+            padding: 10px; /* Adjust padding */
+            border-radius: 10px; /* Add rounded edges */
+            width: 20%; /* Adjust width as needed */
+            margin-right: 500px; /* Add some margin */
         }
 
-        .input-field {
-            border: none;
-            background-color: transparent;
-            outline: none;
-            border-bottom: 1px solid white;
-            width: 100%; /* Adjust width as needed */
-            padding: 5px;
-            color: white;
-        }
+        .cancel-button {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  background-color: #D51B23;
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  border-radius: 5px;
+}
 
-        .button-section {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-        }
+.cancel-button:hover {
+  background-color: #872529;
+}
 
-        .rounded-button {
-            background-color: #D51B23;
-            color: white;
-            font-size: 16px;
-            padding: 10px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-        }
+        
     </style>
 </head>
 <body>
@@ -104,33 +124,32 @@
 
     <div class="total-section">
         <div class="total-text">
-            Your Total is:
+            Order Total
         </div>
-        <div class="total-amount">₱0.00</div>
-        <div class="underline"></div>
+        <div class="total-amount">₱ 0.00</div>
     </div>
+    <div class="underline"></div>
 
     <div class="input-section">
         <div class="input-row">
-            <label class="input-label" for="name">Enter a Name:</label>
-            <input type="text" id="name" class="input-field" placeholder="Name">
+            <label class="input-label" for="name">Full Name:</label>
+            <input type="text" id="name" class="input-field" placeholder="Enter a Name">
         </div>
         <div class="input-row">
-            <label class="input-label" for="date">Enter a Date:</label>
-            <input type="text" id="date" class="input-field" placeholder="Date">
+            <label class="input-label" for="date">Date:</label>
+            <input type="text" id="date" class="input-field" placeholder="Enter a Date">
         </div>
         <div class="input-row">
-            <label class="input-label" for="payment-amount">Enter Payment Amount:</label>
-            <input type="text" id="payment-amount" class="input-field" placeholder="Payment">
+            <label class="input-label" for="payment-amount">Payment amount:</label>
+            <input type="text" id="payment-amount" class="input-field" placeholder="₱ Enter Payment">
         </div>
         <div class="input-row">
-            <label class="input-label" for="change">Change:</label>
-            <span class="input-field">₱0.00</span>
+            <span class="input-label">Change:</span>
+            <span class="input-field">₱ 0.00</span>
         </div>
     </div>
 
-    <div class="button-section">
-        <button class="rounded-button">DONE</button>
+    <a href="Receipt.php" class="cancel-button">Done</a>
     </div>
 
 </body>

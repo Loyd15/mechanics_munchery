@@ -93,6 +93,7 @@ body {
         </form>
     </div>
 </div>
+
 <?php
 
 
@@ -100,7 +101,7 @@ body {
 $servername = "localhost";
 $username = "root"; // Replace with actual MySQL username
 $password = ""; // Replace with actual MySQL password
-$dbname = "dbmuncheryv1";   // Replace with actual database name
+$dbname = "mydb";   // Replace with actual database name
 
 
 // Establish connection
@@ -135,6 +136,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // Close connection
 $conn->close();
 ?>
+
+
 
 </body>
 </html>

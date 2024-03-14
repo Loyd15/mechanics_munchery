@@ -8,19 +8,20 @@
         body {
             background-color: #313131;
             margin: 0;
-            font-family: Arial, sans-serif;
+            font-family: Times New Roman, sans-serif;
         }
 
         .container {
             background-color: #872529;
             margin: 20px;
-            padding: 45px;
+            padding: 30px;
             text-align: left;
+            border-radius: 10px;
         }
 
         .title {
             color: white;
-            font-size: 24px;
+            font-size: 30px;
             margin: 0;
         }
 
@@ -98,7 +99,7 @@
 <body>
 
     <div class="container">
-        <h1 class="title">Payment</h1>
+        <h1 class="title">Payment:</h1>
     </div>
 
     <div class="total-section">

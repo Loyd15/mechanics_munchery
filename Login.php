@@ -98,9 +98,9 @@ body {
 
 // Database connection
 $servername = "localhost";
-$username = "your_username"; // Replace with actual MySQL username
-$password = "your_password"; // Replace with actual MySQL password
-$dbname = "your_database";   // Replace with actual database name
+$username = "root"; // Replace with actual MySQL username
+$password = ""; // Replace with actual MySQL password
+$dbname = "dbmuncheryv1";   // Replace with actual database name
 
 
 // Establish connection

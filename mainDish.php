@@ -41,6 +41,22 @@ body {
   background-color: #491515;
 }
 
+.cancel-button {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  background-color: #525252;
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+.cancel-button:hover {
+  background-color: #636363;
+}
+
 </style>
 </head>
 <html>
@@ -52,6 +68,8 @@ body {
     <a href="drinks.php">Drinks</a>
    
   </div>
+
+  <a href="startScreen.php" class="cancel-button">Cancel</a>
 </div>
 </body>
 </html>

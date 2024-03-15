@@ -8,21 +8,24 @@
         body {
             background-color: #2E2E2E;
             margin: 0;
-            font-family: Times New Roman, sans-serif;
+            font-family: Arial, sans-serif;
         }
 
         .container {
             background-color: #872529;
-            margin: 20px;
+            margin: 20px auto;
             padding: 30px;
             text-align: left;
             border-radius: 10px;
+            width: 60%;
+            max-width: 800px;
         }
 
         .title {
             color: white;
             font-size: 30px;
             margin: 0;
+            margin-bottom: 20px;
         }
 
         .total-section {
@@ -32,33 +35,22 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            width: 60%; /* Adjusted width */
+            width: 100%;
         }
 
-        .total-text{
-            margin-top: 70px;
+        .total-text {
             font-size: 18px;
-            margin-bottom: 10px;
-            margin-left: 500px; /* Adjusted margin */
-            justify-content: space-between;
-            align-items: left;
         }
-        
+
         .total-amount {
-            margin-top: 70px;
             font-size: 18px;
-            margin-bottom: 10px;
-            margin-left: 235px;
-            margin-right: auto; /* Center the element */
         }
 
         .underline {
             border-bottom: 1px solid white;
-            width: 33%;
-            margin-top: 5px;
-            margin-left: auto;
-            margin-right: auto;
-            margin-bottom: 50px;
+            width: 100%;
+            margin-top: 10px;
+            margin-bottom: 20px;
         }
 
         .input-section {
@@ -77,79 +69,147 @@
             margin-bottom: 10px;
         }
 
-
-        .input-label{
+        .input-label {
             color: white;
             font-size: 18px;
-            text-align: center;
-            margin-left: 500px;
+            text-align: left;
+            width: 40%;
         }
 
         .input-field {
-            color: white;
+            color: #333;
             font-size: 18px;
-            text-align: center;
-            border: none; /* Remove the border */
-            background-color: #3E3E3E; /* Set background color */
-            padding: 10px; /* Adjust padding */
-            border-radius: 10px; /* Add rounded edges */
-            width: 20%; /* Adjust width as needed */
-            margin-right: 500px; /* Add some margin */
+            border: none;
+            background-color: #f2f2f2;
+            padding: 10px;
+            border-radius: 5px;
+            width: 55%;
         }
 
-        .cancel-button {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  padding: 10px 20px;
-  background-color: #D51B23;
-  color: white;
-  text-decoration: none;
-  font-size: 16px;
-  border-radius: 5px;
-}
+        .input-field::placeholder {
+            color: #999;
+        }
 
-.cancel-button:hover {
-  background-color: #872529;
-}
+        .done-button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
 
-        
+        .done-button:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
         <h1 class="title">Payment:</h1>
-    </div>
 
-    <div class="total-section">
-        <div class="total-text">
-            Order Total
-        </div>
-        <div class="total-amount">₱ 0.00</div>
-    </div>
-    <div class="underline"></div>
+        <?php
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $database = "mydb";
 
-    <div class="input-section">
-        <div class="input-row">
-            <label class="input-label" for="name">Full Name:</label>
-            <input type="text" id="name" class="input-field" placeholder="Enter a Name">
-        </div>
-        <div class="input-row">
-            <label class="input-label" for="date">Date:</label>
-            <input type="text" id="date" class="input-field" placeholder="Enter a Date">
-        </div>
-        <div class="input-row">
-            <label class="input-label" for="payment-amount">Payment amount:</label>
-            <input type="text" id="payment-amount" class="input-field" placeholder="₱ Enter Payment">
-        </div>
-        <div class="input-row">
-            <span class="input-label">Change:</span>
-            <span class="input-field">₱ 0.00</span>
-        </div>
-    </div>
+        // Create connection
+        $conn = new mysqli($servername, $username, $password, $database);
 
-    <a href="Receipt.php" class="cancel-button">Done</a>
+        // Check connection
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        // Initialize variables to store selected item IDs
+        $mainID = $_GET['mainID'] ?? null;
+        $sideID = $_GET['sideID'] ?? null;
+        $drinkID = $_GET['drinkID'] ?? null;
+
+        // Fetch selected items from the database
+        $mainPrice = 0;
+        $sidePrice = 0;
+        $drinkPrice = 0;
+
+        if ($mainID) {
+            $sql = "SELECT * FROM main WHERE itemID = $mainID";
+            $result = $conn->query($sql);
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                $mainPrice = $row['itemPrice'];
+            }
+        }
+
+        if ($sideID) {
+            $sql = "SELECT * FROM sides WHERE itemID = $sideID";
+            $result = $conn->query($sql);
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                $sidePrice = $row['itemPrice'];
+            }
+        }
+
+        if ($drinkID) {
+            $sql = "SELECT * FROM drinks WHERE itemID = $drinkID";
+            $result = $conn->query($sql);
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                $drinkPrice = $row['itemPrice'];
+            }
+        }
+
+        // Calculate total amount
+        $totalAmount = $mainPrice + $sidePrice + $drinkPrice;
+
+        // Insert data into mCombo table
+        $insertSql = "INSERT INTO mCombo (mainID, drinkID, sideID, totalPrice) VALUES ($mainID, $drinkID, $sideID, $totalAmount)";
+        if ($conn->query($insertSql) === TRUE) {
+            echo "<div class='total-section'>
+                    <div class='total-text'>Order Total</div>
+                    <div class='total-amount'>₱ " . number_format($totalAmount, 2) . "</div>
+                  </div>
+                  <div class='underline'></div>
+                  <div class='input-section'>
+                    <form action='Receipt.php' method='POST'>
+                        <div class='input-row'>
+                            <label class='input-label' for='name'>Full Name:</label>
+                            <input type='text' id='name' class='input-field' placeholder='Enter your full name' name='fullName' required>
+                        </div>
+                        <div class='input-row'>
+                            <label class='input-label' for='date'>Date:</label>
+                            <input type='date' id='date' class='input-field' name='transactionDate' required>
+                        </div>
+                        <div class='input-row'>
+                            <input type='hidden' name='totalAmount' value='$totalAmount'>
+                        </div>
+                        <button type='submit' class='done-button'>Done</button>
+                    </form>
+                  </div>";
+        } else {
+            echo "Error: " . $insertSql . "<br>" . $conn->error;
+        }
+
+        // Insert data into transactions table
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $fullName = $_POST['fullName'];
+            $transactionDate = $_POST['transactionDate'];
+            $totalAmount = $_POST['totalAmount'];
+
+            $insertTransactionSql = "INSERT INTO transactions (itemType, itemID, transactionDate) VALUES ('M', LAST_INSERT_ID(), '$transactionDate')";
+            if ($conn->query($insertTransactionSql) === TRUE) {
+                echo "<p>Transaction recorded successfully.</p>";
+            } else {
+                echo "Error: " . $insertTransactionSql . "<br>" . $conn->error;
+            }
+        }
+
+        $conn->close();
+        ?>
+
     </div>
 
 </body>

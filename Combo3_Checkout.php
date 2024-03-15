@@ -94,7 +94,7 @@ body{
 <div class="container">
     <img src="Combo Meals Logo.png" alt="Left Logo" class="logo logo-left">
     <img src="CM3 Checkout.png" alt="Center Image" class="combo3-image">
-    <a href="payment.php" class="payment-button">Proceed payment</a>
+    <a href="payment.php?comboID=3" class="payment-button">Proceed payment</a>
     <a href="ComboMeals.php" class="cancel-button">Cancel</a>
     <div class="text-container">
       <div class="subtotal">Subtotal: ₱ 230.00</div>

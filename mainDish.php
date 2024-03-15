@@ -1,5 +1,4 @@
 <?php
-
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -69,14 +68,11 @@ $conn->close();
             color: white;
             text-decoration: none;
             border-radius: 10px;
-            background-color: #872529;
-            border: none;
-            cursor: pointer;
         }
 
-.sidebar a.active {
-  background-color: #491515;
-}
+        .sidebar a.active {
+            background-color: #491515;
+        }
 
         .main-dish-selection {
             flex: 1;
@@ -110,14 +106,24 @@ $conn->close();
 </head>
 
 <body>
-<div class="container">
-  <div class="sidebar">
-    <a href="#" class="active">Main</a>
-    <a href="sideDish.php">Side</a>
-    <a href="drinks.php">Drinks</a>
-   
-  </div>
-</div>
+    <div class="container">
+        <div class="sidebar">
+            <a href="#" class="active">Main</a>
+            <a href="sideDish.php">Side</a>
+            <a href="drinks.php">Drinks</a>
+        </div>
+
+        <div class="main-dish-selection">
+            <?php foreach ($mainDishes as $main) : ?>
+                <div class="main-dish-item">
+                    <form action="sideDish.php" method="get">
+                        <input type="hidden" name="mainID" value="<?php echo $main['itemID']; ?>">
+                        <button type="submit" name="select_main"><?php echo $main['itemName'] . ' - ₱' . number_format($main['itemPrice'], 2); ?></button>
+                    </form>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
 </body>
 
 </html>

@@ -125,7 +125,13 @@
             die("Connection failed: " . $conn->connect_error);
         }
 
+        if(isset($_GET['comboID'])) {
+            // Retrieve the comboID from the URL
+            $comboID = $_GET['comboID'];
+            echo "Selected comboID: $comboID recorded successfully";
+        }
         // Initialize variables to store selected item IDs
+        $comboID = $_GET['comboID'];
         $mainID = $_GET['mainID'] ?? null;
         $sideID = $_GET['sideID'] ?? null;
         $drinkID = $_GET['drinkID'] ?? null;
@@ -163,11 +169,21 @@
         }
 
         // Calculate total amount
+        if ($comboID) {
+            $sql = "SELECT discountPrice FROM combos WHERE comboID = $comboID";
+            $result = $conn->query($sql);
+        
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                $totalAmount = $row['discountPrice'];
+            }
+        } else {
         $totalAmount = $mainPrice + $sidePrice + $drinkPrice;
+        }
 
-        // Insert data into mCombo table
-        $insertSql = "INSERT INTO mCombo (mainID, drinkID, sideID, totalPrice) VALUES ($mainID, $drinkID, $sideID, $totalAmount)";
-        if ($conn->query($insertSql) === TRUE) {
+        if ($mainID){
+        $insertSql = "INSERT INTO mCombo (mainID, drinkID, sideID, totalPrice) VALUES ($mainID, $drinkID, $sideID, $totalAmount)";}
+        
             echo "<div class='total-section'>
                     <div class='total-text'>Order Total</div>
                     <div class='total-amount'>₱ " . number_format($totalAmount, 2) . "</div>
@@ -189,17 +205,19 @@
                         <button type='submit' class='done-button'>Done</button>
                     </form>
                   </div>";
-        } else {
-            echo "Error: " . $insertSql . "<br>" . $conn->error;
-        }
+       
 
         // Insert data into transactions table
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $fullName = $_POST['fullName'];
             $transactionDate = $_POST['transactionDate'];
             $totalAmount = $_POST['totalAmount'];
-
+            if ($comboID){
+                $insertTransactionSql = "INSERT INTO transactions (itemType, itemID, transactionDate) VALUES ('C', '$comboID', '$transactionDate')";
+            } else {
             $insertTransactionSql = "INSERT INTO transactions (itemType, itemID, transactionDate) VALUES ('M', LAST_INSERT_ID(), '$transactionDate')";
+            }
+            
             if ($conn->query($insertTransactionSql) === TRUE) {
                 echo "<p>Transaction recorded successfully.</p>";
             } else {

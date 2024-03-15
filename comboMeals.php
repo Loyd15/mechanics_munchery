@@ -89,23 +89,23 @@ body {
     <img src="Combo Meals Logo.png" alt="Left Logo" class="logo logo-left">
     <img src="15 off Logo.png" alt="Right Logo" class="logo logo-right">
     <div class="combo-container">
-      <div class="top-items">
-        <a href="Combo1_Checkout.php" class="combo-item">
-          <img src="Combo1.png" alt="Combo 1 Image">
-        </a>
-        <a href="Combo2_Checkout.php" class="combo-item">
-          <img src="Combo2.png" alt="Combo 2 Image">
-        </a>
-      </div>
-      <div class="bottom-items">
-        <a href="Combo3_Checkout.php" class="combo-item">
-          <img src="Combo3.png" alt="Combo 3 Image">
-        </a>
-        <a href="Combo4_Checkout.php" class="combo-item">
-          <img src="Combo4.png" alt="Combo 4 Image">
-        </a>
-      </div>
-    </div>
+  <div class="top-items">
+    <a href="Combo1_Checkout.php?comboID=1" class="combo-item">
+      <img src="Combo1.png" alt="Combo 1 Image">
+    </a>
+    <a href="Combo2_Checkout.php?comboID=2" class="combo-item">
+      <img src="Combo2.png" alt="Combo 2 Image">
+    </a>
+  </div>
+  <div class="bottom-items">
+    <a href="Combo3_Checkout.php?comboID=3" class="combo-item">
+      <img src="Combo3.png" alt="Combo 3 Image">
+    </a>
+    <a href="Combo4_Checkout.php?comboID=4" class="combo-item">
+      <img src="Combo4.png" alt="Combo 4 Image">
+    </a>
+  </div>
+</div>
     <a href="mainMenu.php" class="menu-button">View Menu</a>
   </div>
 </body>

@@ -101,6 +101,17 @@
             transition: background-color 0.3s;
         }
 
+        .another-button{
+            padding: 10px 20px;
+            background-color: #red;
+            color: black;
+            text-decoration: none;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
         .done-button:hover {
             background-color: #45a049;
         }
@@ -125,11 +136,6 @@
             die("Connection failed: " . $conn->connect_error);
         }
 
-        if(isset($_GET['comboID'])) {
-            // Retrieve the comboID from the URL
-            $comboID = $_GET['comboID'];
-            echo "Selected comboID: $comboID recorded successfully";
-        }
         // Initialize variables to store selected item IDs
         $comboID = $_GET['comboID'];
         $mainID = $_GET['mainID'] ?? null;
@@ -181,49 +187,71 @@
         $totalAmount = $mainPrice + $sidePrice + $drinkPrice;
         }
 
-        if ($mainID){
-        $insertSql = "INSERT INTO mCombo (mainID, drinkID, sideID, totalPrice) VALUES ($mainID, $drinkID, $sideID, $totalAmount)";}
-        
-            echo "<div class='total-section'>
-                    <div class='total-text'>Order Total</div>
-                    <div class='total-amount'>₱ " . number_format($totalAmount, 2) . "</div>
-                  </div>
-                  <div class='underline'></div>
-                  <div class='input-section'>
-                    <form action='Receipt.php' method='POST'>
-                        <div class='input-row'>
-                            <label class='input-label' for='name'>Full Name:</label>
-                            <input type='text' id='name' class='input-field' placeholder='Enter your full name' name='fullName' required>
-                        </div>
-                        <div class='input-row'>
-                            <label class='input-label' for='date'>Date:</label>
-                            <input type='date' id='date' class='input-field' name='transactionDate' required>
-                        </div>
-                        <div class='input-row'>
-                            <input type='hidden' name='totalAmount' value='$totalAmount'>
-                        </div>
-                        <button type='submit' class='done-button'>Done</button>
-                    </form>
-                  </div>";
+        if (!$comboID){
+            $insertSql = "INSERT INTO mCombo (mainID, drinkID, sideID, totalPrice) VALUES ($mainID, $drinkID, $sideID, $totalAmount)";
+            if ($conn->query($insertSql) === TRUE) {
+                echo "<p>Data inserted into mCombo table successfully.</p>";
+            } else {
+                echo "Error: " . $insertSql . "<br>" . $conn->error;
+            }
+        }
+        echo "<div class='total-section'>
+        <div class='total-text'>Order Total</div>
+        <div class='total-amount'>₱ " . number_format($totalAmount, 2) . "</div>
+      </div>
+      <div class='underline'></div>
+      <div class='input-section'>
+        <form action='' method='POST'>
+            <div class='input-row'>
+                <label class='input-label' for='name'>Full Name:</label>
+                <input type='text' id='name' class='input-field' placeholder='Enter your full name' name='fullName' required>
+            </div>
+            <div class='input-row'>
+                <label class='input-label' for='date'>Date:</label>
+                <input type='date' id='date' class='input-field' name='transactionDate' required>
+            </div>
+            <div class='input-row'>
+                <input type='hidden' name='totalAmount' value='$totalAmount'>
+            </div>
+            <button type='submit' class='done-button'>Done</button>
+        </form>
+        <br>
+        <form action='startScreen.php' method='POST'>
+            <button type='submit' class='another-button'>main menu</button>
+        </form>
+      </div>";
        
 
         // Insert data into transactions table
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            // Retrieve form data
             $fullName = $_POST['fullName'];
             $transactionDate = $_POST['transactionDate'];
-            $totalAmount = $_POST['totalAmount'];
-            if ($comboID){
-                $insertTransactionSql = "INSERT INTO transactions (itemType, itemID, transactionDate) VALUES ('C', '$comboID', '$transactionDate')";
+        
+            if ($comboID) {
+                $insertTransactionSql = "INSERT INTO transactions (transactionID, itemType, itemID, transactionDate) VALUES (NULL, 'C', '$comboID', '$transactionDate')";
             } else {
-            $insertTransactionSql = "INSERT INTO transactions (itemType, itemID, transactionDate) VALUES ('M', LAST_INSERT_ID(), '$transactionDate')";
+                $getLastComboIDSql = "SELECT MAX(comboID) AS lastComboID FROM mCombo";
+                $result = $conn->query($getLastComboIDSql);
+                if ($result->num_rows > 0) {
+                    $row = $result->fetch_assoc();
+                    $comboID = $row['lastComboID'];
+                    echo "$comboID";
+                    $insertTransactionSql = "INSERT INTO transactions (transactionID, itemType, itemID, transactionDate) VALUES (NULL, 'M', '$comboID', '$transactionDate')";
+                } else {
+                    echo "Error: No comboID found.";
+                }
             }
-            
+        
             if ($conn->query($insertTransactionSql) === TRUE) {
-                echo "<p>Transaction recorded successfully.</p>";
+                // Display a confirmation message
+                echo "Transaction recorded successfully.";
             } else {
-                echo "Error: " . $insertTransactionSql . "<br>" . $conn->error;
+                // Provide an error message
+                echo "Error: Unable to record transaction.";
             }
         }
+        
 
         $conn->close();
         ?>
